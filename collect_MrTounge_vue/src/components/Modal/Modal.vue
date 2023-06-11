@@ -1,6 +1,6 @@
 <template lang="">
     <div class="modal-wrapper">
-        <div class="bg-white w-[50rem] h-[30rem]">
+        <div class="bg-white rounded-lg w-[50rem] h-[30rem] ">
             <span class="hover:text-red-600 text-3xl cursor-pointer" @click="closeModal">&times;</span>
             <section>
                 <h1>사진 업로드</h1>
@@ -50,6 +50,7 @@ function imgUpload(){
     }
     .modal-content-box{
         background-color: #fff;
+        
         
     }
     .resize{

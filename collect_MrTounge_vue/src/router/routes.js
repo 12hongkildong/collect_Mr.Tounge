@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../components/login/Login.vue';
 import Main from '../components/Main/Main.vue'
 import Board from '../components/board/FreeBoard.vue'
+import MyList from '../components/MyList/MyList.vue'
 
 
 
@@ -21,7 +22,11 @@ const routes = [
   {
     path: '/board',
     component: Board
-  }
+  },
+  {
+    path: '/list',
+    component: MyList
+  },
 ];
 
 const router = createRouter({
