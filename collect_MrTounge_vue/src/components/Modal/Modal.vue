@@ -1,7 +1,7 @@
 <template lang="">
     <div class="modal-wrapper">
         <div class="bg-white w-[50rem] h-[30rem]">
-            <span class="hover:text-red-600 text-3xl" @click="closeModal">&times;</span>
+            <span class="hover:text-red-600 text-3xl cursor-pointer" @click="closeModal">&times;</span>
             <section>
                 <h1>사진 업로드</h1>
                 <input type="file" name="" id="" accept="image/*">
