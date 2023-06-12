@@ -24,6 +24,14 @@
                         <div>날짜</div>
                         <div>추천수</div>
                     </div>
+                    <div v-for="(list, i) in data3" :key="i" class="grid grid-cols-[60px_500px_128px_60px_100px_60px] ">
+                        <div>{{data[i].id}}</div>
+                        <div>{{data[i].title}}</div>
+                        <div>{{data[i].memberId}}</div>
+                        <div>{{data[i].hit}}</div>
+                        <div>{{data[i].regDate}}</div>
+                        <div>0</div>
+                    </div>
                     <div class="grid grid-cols-[60px_500px_128px_60px_100px_60px] ">
                         <div>2</div>
                         <div>이것이 제목</div>
@@ -98,10 +106,58 @@
             </section>
         </section>
     </section>
+
+    {{data}}
+    <div class="bg-red-300">{{data}}</div>
+    
+    <div class="bg-blue-300">{{data2}}</div>
+    <div class="bg-yellow-300">{{data3}}</div>
 </template>
 <script setup>
+import { reactive, onMounted, onUpdated, onBeforeMount, ref } from 'vue';
+
+// let data = reactive();
+let data = ref();
+let data2 = reactive({
+  id:'',
+  title:'',
+  contnent:'',
+  regDate:'',
+  hit:'',
+  memberId:'',
+})
+let data3 = reactive();
+
+onBeforeMount(()=>{
+  console.log("비뽀마우트")
+})
+
+onMounted(() => {
+  var requestOptions = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+
+  fetch("http://localhost:8080/listall", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      // console.log(result);
+      // data = result;
+      data.value = result;
+      // console.log(data[1].id)
+      data2 = result; 
+      console.log(data2[1])
+      data3 = result;
+    })
+    .catch(error => console.log('error', error));
+
+    console.log("마운트");
+})
+
+onUpdated(()=>{
+
+});
+
 
 </script>
-<style scoped>
-    
-</style>
+<style scoped></style>
