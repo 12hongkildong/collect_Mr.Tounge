@@ -19,7 +19,7 @@ onMounted(() => {
     console.log("계속되나 확인")
     if(!window.kakao || !window.kakao.maps){
         const script = document.createElement("script");
-        script.src = '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey='
+        script.src = '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=582abe9ccb2561cbe67f7bcc34c45c1e'
 
         script.addEventListener("load", () => {
             kakao.maps.load(()=>{
