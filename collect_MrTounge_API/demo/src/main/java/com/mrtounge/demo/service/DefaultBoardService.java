@@ -3,8 +3,10 @@ package com.mrtounge.demo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.mrtounge.demo.dto.BoardAndPage;
 import com.mrtounge.demo.entity.Board;
 import com.mrtounge.demo.repository.BoarderRepository;
 
@@ -14,6 +16,9 @@ public class DefaultBoardService implements BoardService {
     @Autowired
     private BoarderRepository repository;
 
+    @Autowired
+    private BoardAndPage boardAndPage;
+
     @Override
     public List<Board> getByList() {
  
@@ -21,7 +26,31 @@ public class DefaultBoardService implements BoardService {
     }
 
     @Override
-    public List<Board> getByListOrderByIdDesc() {
+    public List<Board> getByListOrderByIdDesc(int offset, int size) {
         return repository.findAllByOrderByIdDesc();
+    }
+
+    @Override
+    public List<Board> getByListPage(Pageable pageable) {
+        // System.out.println(repository.findAll(pageable).getContent());
+        
+        System.out.println(repository.findAll(pageable).getTotalPages());
+        
+    //    return repository.findAll(pageable).getContent();
+     return repository.findAll(pageable).getContent();
+    };
+
+    @Override
+    public BoardAndPage getByListAndTotalPage(Pageable pageable) {
+        // System.out.println(repository.findAll(pageable).getContent());
+        
+        System.out.println(repository.findAll(pageable).getTotalPages());
+        
+        boardAndPage.setBoardList(repository.findAll(pageable).getContent());
+        boardAndPage.setTotalPages(repository.findAll(pageable).getTotalPages());
+        
+
+    //    return repository.findAll(pageable).getContent();
+     return boardAndPage;
     };
 }
