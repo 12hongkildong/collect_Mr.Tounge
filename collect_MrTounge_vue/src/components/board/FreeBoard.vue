@@ -32,30 +32,6 @@
                         <div>{{data[i].regDate}}</div>
                         <div>0</div>
                     </div>
-                    <div class="grid grid-cols-[60px_500px_128px_60px_100px_60px] ">
-                        <div>2</div>
-                        <div>이것이 제목</div>
-                        <div>난고래다</div>
-                        <div>999</div>
-                        <div>23.06.11.</div>
-                        <div>0</div>
-                    </div>
-                    <div class="grid grid-cols-[60px_500px_128px_60px_100px_60px] ">
-                        <div>1</div>
-                        <div>1빠</div>
-                        <div>스피드스타</div>
-                        <div>0</div>
-                        <div>23.06.11.</div>
-                        <div>0</div>
-                    </div>
-                    <div class="grid grid-cols-[60px_500px_128px_60px_100px_60px] ">
-                        <div>0</div>
-                        <div>공지사항입니다.</div>
-                        <div>운영자</div>
-                        <div>0</div>
-                        <div>23.06.11.</div>
-                        <div>0</div>
-                    </div>
                 </section>
                 <section >
                     <h1 class="hidden">페이지네이션</h1>

@@ -6,4 +6,5 @@ import com.mrtounge.demo.entity.Board;
 
 public interface BoardService {
     List<Board> getByList();
+    List<Board> getByListOrderByIdDesc();
 }

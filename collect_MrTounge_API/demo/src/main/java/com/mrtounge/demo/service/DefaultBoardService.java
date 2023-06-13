@@ -18,5 +18,10 @@ public class DefaultBoardService implements BoardService {
     public List<Board> getByList() {
  
         return repository.findAll();
+    }
+
+    @Override
+    public List<Board> getByListOrderByIdDesc() {
+        return repository.findAllByOrderByIdDesc();
     };
 }

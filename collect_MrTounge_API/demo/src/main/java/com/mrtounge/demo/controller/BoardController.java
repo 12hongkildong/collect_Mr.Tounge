@@ -19,6 +19,6 @@ public class BoardController {
     public List<Board> listAll(){
         
 
-        return service.getByList();
+        return service.getByListOrderByIdDesc();
     }
 }
