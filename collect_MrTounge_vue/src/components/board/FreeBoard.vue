@@ -35,48 +35,19 @@
                 </section>
                 <section >
                     <h1 class="hidden">페이지네이션</h1>
-                    <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-                      <div class="flex flex-1 justify-between sm:hidden">
-                        <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
-                        <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
-                      </div>
-                      <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                        <div>
-                          <p class="text-sm text-gray-700">
-                            Showing
-                            <span class="font-medium">1</span>
-                            to
-                            <span class="font-medium">5</span>
-                            of
-                            <span class="font-medium">{{totalPages}}</span>
-                            results
-                          </p>
+                    <nav aria-label="Page navigation">
+                      <ul class="inline-flex">
+                        <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100" @click="changePage(1)">First</button></li>
+                        <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100" @click="fiveMinuseJumpPage()">5점프</button></li>
+                        <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100" @click="previousPage()">이전</button></li>
+                        <div v-for="num in showPage" :key="num">
+                          <li><button class="" :class="currentPage == num ? 'h-10 px-5 text-white transition-colors duration-150 bg-indigo-600 focus:shadow-outline' : 'h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100'" @click="changePage(num)">{{num}}</button></li>
                         </div>
-                        <div>
-                          <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                            <a href="#" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                              <span class="sr-only">Previous</span>
-                              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
-                              </svg>
-                            </a>
-                            <!-- Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" -->
-
-                            <a href="#" aria-current="page" class="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</a>
-                            <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">2</a>
-                            <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">3</a>
-                            <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">4</a>
-                            <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">5</a>
-                            <a href="#" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                              <span class="sr-only">Next</span>
-                              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-                              </svg>
-                            </a>
-                          </nav>
-                        </div>
-                      </div>
-                    </div>
+                        <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-r-lg focus:shadow-outline hover:bg-indigo-100" @click="nextPage()">다음</button></li>
+                        <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-r-lg focus:shadow-outline hover:bg-indigo-100" @click="fiveJumpPage()">5점프</button></li>
+                        <li><button class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-r-lg focus:shadow-outline hover:bg-indigo-100" @click="changePage(totalPages)">Last</button></li>
+                      </ul>
+                    </nav>
                 </section>
             </section>
         </section>
@@ -94,12 +65,67 @@
     </div> -->
 </template>
 <script setup>
-import { reactive, onMounted, onUpdated, onBeforeMount, ref } from 'vue';
+import { reactive, onMounted, onUpdated, onBeforeMount, ref, computed } from 'vue';
 
 // let data = reactive();
 let data = ref("");
 let list = ref("");
-let totalPages = ref("");
+let totalPages = ref(11);
+let PageChangeRange = 5;
+let currentPage = ref(1);
+
+let pageCutCount = computed(()=>{
+  return Math.trunc(totalPages.value/PageChangeRange);
+});
+
+let showPage = ref(5);
+
+// let showPage = computed(()=>{
+//     const start = (currentPage.value - 1) * PageChangeRange + 1;
+//     const end = Math.min(start + PageChangeRange - 1, totalPages.value);
+//     return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+//   }
+// );
+
+function updatePage(){
+  const start = (Math.floor((currentPage.value - 1) / PageChangeRange) * PageChangeRange) + 1;
+  const end = Math.min(start + PageChangeRange - 1, totalPages.value);
+  showPage = Array.from({ length: end - start + 1 }, (_, index) => start + index);
+};
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+    updatePage();
+  }
+}
+
+function previousPage() {
+  if (currentPage.value !=1) {
+    currentPage.value--;
+    updatePage();
+  }
+}
+
+function changePage(num){
+  // if(!currentPage == (1||totalPages))
+    currentPage.value=num;
+    updatePage();
+}
+
+function fiveJumpPage(){
+  if(!((totalPages.value-currentPage.value)<=Math.trunc(totalPages.value%5)-1))
+  currentPage.value = Math.ceil(currentPage.value / PageChangeRange) * PageChangeRange + 1;
+  updatePage();
+}
+
+function fiveMinuseJumpPage(){
+  if (currentPage.value > 5){ 
+  currentPage.value -= (PageChangeRange+(Math.trunc(currentPage.value-1)%PageChangeRange))
+  console.log()
+  updatePage();
+  }
+}
 
 
 // let data2 = reactive({
@@ -111,10 +137,6 @@ let totalPages = ref("");
 //   memberId: '',
 // })
 // let data3 = reactive();
-
-onBeforeMount(() => {
-  console.log("비뽀마우트")
-})
 
 onMounted(() => {
   var requestOptions = {
@@ -132,20 +154,11 @@ onMounted(() => {
       totalPages.value = result.totalPages;
       console.log(totalPages);
       console.log(result)
-
-      // console.log(data[1].id)
-      // data2 = result; 
-      // console.log(data2[1])
-      // data3 = result;
     })
     .catch(error => console.log('error', error));
-
   console.log("마운트");
 })
 
-onUpdated(() => {
-
-});
 
 
 </script>

@@ -36,7 +36,7 @@ public class BoardController {
 
     @GetMapping("listallpagenation")
     public BoardAndPage listAllPageNation(
-        @PageableDefault(size=5, sort="id", direction=Sort.Direction.DESC)Pageable pageable){
+        @PageableDefault(size=1, sort="id", direction=Sort.Direction.DESC)Pageable pageable){
             
             BoardAndPage a = service.getByListAndTotalPage(pageable);
 

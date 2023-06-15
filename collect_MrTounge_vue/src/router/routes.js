@@ -4,6 +4,7 @@ import Login from '../components/login/Login.vue';
 import Main from '../components/Main/Main.vue'
 import Board from '../components/board/FreeBoard.vue'
 import MyList from '../components/MyList/MyList.vue'
+import gpt from '../components/board/gptPage.vue'
 
 
 
@@ -27,7 +28,12 @@ const routes = [
     path: '/list',
     component: MyList
   },
+  {
+    path: '/gpt',
+    component: gpt
+  },
 ];
+
 
 const router = createRouter({
   history: createWebHistory(),
