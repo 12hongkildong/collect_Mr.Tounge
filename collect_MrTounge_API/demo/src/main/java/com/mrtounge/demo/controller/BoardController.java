@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,5 +47,13 @@ public class BoardController {
             
         return service.getByListById(id);
     }
+
+    @PostMapping("updatePost")
+    public String detailPage(
+        @RequestBody Board board ){
+            service.updatePost(board.getId(), board.getTitle(), board.getContent());
+        return "업데이트 성공";
+    }
+
 
 }

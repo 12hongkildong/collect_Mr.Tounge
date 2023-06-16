@@ -1,5 +1,6 @@
 package com.mrtounge.demo.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,5 +59,14 @@ public class DefaultBoardService implements BoardService {
     @Override
     public Optional<Board> getByListById(Integer id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public void updatePost(Long id, String title, String content) {
+        
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+
+        repository.updatePost(id, title, content, currentTimestamp);
+        
     };
 }

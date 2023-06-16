@@ -1,12 +1,12 @@
-// import { defineStore } from "pinia";
+import { defineStore } from "pinia";
 
-// export const useDisplayCategoryStore = defineStore("displayCategory", {
-//     state: () => ({
-//         category: '1'
-//     }),
-//     actions: {
-//         saveCategory(String) {
-//             this.category = String;
-//         },
-//     }
-// });
+export const useUserDetailsStore = defineStore("userId", {
+    state: () => ({
+        userId: 1
+    }),
+    actions: {
+        saveCategory(id) {
+            this.userId = id;
+        },
+    }
+});

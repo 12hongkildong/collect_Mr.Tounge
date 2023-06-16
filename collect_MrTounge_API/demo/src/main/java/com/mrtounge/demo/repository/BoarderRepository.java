@@ -1,5 +1,7 @@
 package com.mrtounge.demo.repository;
 
+
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -13,4 +15,7 @@ public interface BoarderRepository extends JpaRepository<Board, Integer> {
     List<Board> findAllByOrderByIdDesc();
 
     Page<Board> findAll(Pageable pageable);
+
+    Board updatePost(Long id, String title, String content, Timestamp currentTimestamp);
+
 }

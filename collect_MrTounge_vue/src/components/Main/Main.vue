@@ -12,8 +12,8 @@
                 </div>
                 <div class="row-start-3 grid grid-cols-3 justify-items-center items-center text-center">
                     <button class="rounded-3xl w-56 h-40 bg-blue-50 text-4xl" @click="modalBtn">사진 업로드</button>
-                    <router-link to="/list" class="rounded-3xl w-56 h-40 bg-blue-50  text-4xl">모아보기</router-link>
-                    <router-link to="/board" class="rounded-3xl w-56 h-40 bg-blue-50  text-4xl">공략집</router-link>
+                    <router-link to="/list" class="rounded-3xl w-56 h-40 bg-blue-50  text-4xl grid items-center justify-center">모아보기</router-link>
+                    <router-link to="/board" class="rounded-3xl w-56 h-40 bg-blue-50  text-4xl grid items-center justify-center">공략집</router-link>
 
                 </div>
 
