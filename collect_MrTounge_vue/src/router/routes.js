@@ -5,6 +5,7 @@ import Main from '../components/Main/Main.vue'
 import Board from '../components/board/FreeBoard.vue'
 import MyList from '../components/MyList/MyList.vue'
 import gpt from '../components/board/gptPage.vue'
+import Detail from '../components/board/Detail.vue'
 
 
 
@@ -22,7 +23,16 @@ const routes = [
   },
   {
     path: '/board',
-    component: Board
+    component: Board,
+    // children:[
+    //   {path: ':id', component:Detail}
+    // ]
+  },
+  {
+    path: '/board/:id', 
+    component:Detail,
+    name:'detail',
+    props: true,
   },
   {
     path: '/list',

@@ -1,6 +1,7 @@
 package com.mrtounge.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -52,5 +53,10 @@ public class DefaultBoardService implements BoardService {
 
     //    return repository.findAll(pageable).getContent();
      return boardAndPage;
+    }
+
+    @Override
+    public Optional<Board> getByListById(Integer id) {
+        return repository.findById(id);
     };
 }

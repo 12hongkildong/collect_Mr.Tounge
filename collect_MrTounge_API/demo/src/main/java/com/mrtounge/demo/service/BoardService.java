@@ -1,6 +1,7 @@
 package com.mrtounge.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
@@ -12,4 +13,5 @@ public interface BoardService {
     List<Board> getByListOrderByIdDesc(int offset, int size);
     List<Board> getByListPage(Pageable pageable);
     BoardAndPage getByListAndTotalPage(Pageable pageable);
+    Optional<Board> getByListById(Integer id);
 }
