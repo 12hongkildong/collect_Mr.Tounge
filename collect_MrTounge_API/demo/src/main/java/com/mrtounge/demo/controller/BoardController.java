@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mrtounge.demo.dto.BoardAndPage;
 import com.mrtounge.demo.entity.Board;
+import com.mrtounge.demo.entity.UpdateArticle;
 import com.mrtounge.demo.service.BoardService;
 
 @RestController
@@ -48,9 +49,10 @@ public class BoardController {
         return service.getByListById(id);
     }
 
-    @PostMapping("updatePost")
+    @PostMapping("updateArticle")
     public String detailPage(
         @RequestBody Board board ){
+            // @RequestBody UpdateArticle board ){
             service.updatePost(board.getId(), board.getTitle(), board.getContent());
         return "업데이트 성공";
     }

@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Table(name="board")
 public class Board {
     @Id
-    Long id;
+    Integer id;
     String title;
     String content;
     @Temporal(TemporalType.DATE)

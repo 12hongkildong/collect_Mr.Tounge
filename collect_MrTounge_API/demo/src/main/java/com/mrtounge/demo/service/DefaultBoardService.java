@@ -62,11 +62,17 @@ public class DefaultBoardService implements BoardService {
     }
 
     @Override
-    public void updatePost(Long id, String title, String content) {
-        
-        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+    public void updatePost(Integer id, String title, String content) {
+        Optional<Board> article = repository.findById(id);
+        if (article.isPresent()) {
+            Board updateArticle = article.get();
+            updateArticle.setTitle(title);
+            updateArticle.setContent(content);
+            updateArticle.setRegDate(new Timestamp(System.currentTimeMillis())); 
 
-        repository.updatePost(id, title, content, currentTimestamp);
-        
+            repository.save(updateArticle);
+            System.out.println(updateArticle);
+            System.out.println(article);
+        }
     };
 }
