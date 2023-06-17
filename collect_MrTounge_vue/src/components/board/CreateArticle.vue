@@ -4,12 +4,12 @@
     <section class="col-start-2 bg-pink-400 grid grid-rows-[60px_1fr_100px_128px] ">
             <h1>디테일 게시글</h1>
             <section class="p-5">
-                <input type="text" class="text-6xl mb-2" maxlength="20" v-model="title">
+                <input type="text" class="text-6xl mb-2" maxlength="20" v-model="title" placeholder="제목">
                 <div class="border-t-4 border-indigo-500 border-solid bg-blue-400 pl-2">
 
                 </div>
                 <div class="h-[500px] bg-white">
-                    <textarea name="" id="" class="p-4 h-[500px] w-[1020px] resize-none whitespace-pre-line" v-model="content"></textarea>
+                    <textarea name="" id="" class="p-4 h-[500px] w-[1020px] resize-none whitespace-pre-line" v-model="content"  placeholder="내용을 입력하세요."></textarea>
                 </div>
             </section>
             <div class="grid justify-center">

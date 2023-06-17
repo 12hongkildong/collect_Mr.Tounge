@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mrtounge.demo.dto.BoardAndPage;
 import com.mrtounge.demo.entity.Board;
-import com.mrtounge.demo.entity.delete하세요UpdateArticle;
 import com.mrtounge.demo.service.BoardService;
 
 @RestController
