@@ -23,7 +23,7 @@ public class DefaultBoardService implements BoardService {
 
     @Override
     public List<Board> getByList() {
- 
+
         return repository.findAll();
     }
 
@@ -35,25 +35,24 @@ public class DefaultBoardService implements BoardService {
     @Override
     public List<Board> getByListPage(Pageable pageable) {
         // System.out.println(repository.findAll(pageable).getContent());
-        
+
         System.out.println(repository.findAll(pageable).getTotalPages());
-        
-    //    return repository.findAll(pageable).getContent();
-     return repository.findAll(pageable).getContent();
+
+        // return repository.findAll(pageable).getContent();
+        return repository.findAll(pageable).getContent();
     };
 
     @Override
     public BoardAndPage getByListAndTotalPage(Pageable pageable) {
         // System.out.println(repository.findAll(pageable).getContent());
-        
+
         System.out.println(repository.findAll(pageable).getTotalPages());
-        
+
         boardAndPage.setBoardList(repository.findAll(pageable).getContent());
         boardAndPage.setTotalPages(repository.findAll(pageable).getTotalPages());
-        
 
-    //    return repository.findAll(pageable).getContent();
-     return boardAndPage;
+        // return repository.findAll(pageable).getContent();
+        return boardAndPage;
     }
 
     @Override
@@ -68,11 +67,24 @@ public class DefaultBoardService implements BoardService {
             Board updateArticle = article.get();
             updateArticle.setTitle(title);
             updateArticle.setContent(content);
-            updateArticle.setRegDate(new Timestamp(System.currentTimeMillis())); 
+            updateArticle.setRegDate(new Timestamp(System.currentTimeMillis()));
 
             repository.save(updateArticle);
             System.out.println(updateArticle);
             System.out.println(article);
         }
+    }
+
+    @Override
+    public void createPost(Integer memberId, String title, String content) {
+    Board article = new Board();
+
+    article.setMemberId(memberId);
+    article.setTitle(title);
+    article.setContent(content);
+
+    repository.save(article);
+
     };
+
 }

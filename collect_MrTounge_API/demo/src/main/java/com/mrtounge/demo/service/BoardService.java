@@ -15,4 +15,5 @@ public interface BoardService {
     BoardAndPage getByListAndTotalPage(Pageable pageable);
     Optional<Board> getByListById(Integer id);
     void updatePost(Integer id, String title, String content);
+    void createPost(Integer memberId, String title, String content);
 }
