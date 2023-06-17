@@ -23,6 +23,7 @@ import { defineProps, defineEmits } from 'vue';
 import { useUserDetailsStore } from '../../stores/useUserDetailsStore';
 
 
+
 let userId = useUserDetailsStore.userId;
 
 const emit = defineEmits([
@@ -36,20 +37,41 @@ const props = defineProps({
 })
 
 function changeFile(e) {
-    // console.log(e);
-    const exifData = ExifReader.load(e);
-    console.log(exifDate);
-    const { GPSLatitude, GPSLongitude } = exifData;
+    const file = e; // 이미지 파일
 
-    if (GPSLatitude && GPSLongitude) {
-      const latitude = GPSLatitude.description;
-      const longitude = GPSLongitude.description;
-      console.log("Latitude:", latitude);
-      console.log("Longitude:", longitude);
-    } else {
-      console.log("Location information not found.");
-    }
+    EXIF.getData(file, function () {
+        // const latitude = EXIF.getTag(this, "GPSLatitude"); // 위도 정보 가져오기
+        // const longitude = EXIF.getTag(this, "GPSLongitude"); // 경도 정보 가져오기
+        let exifLong = EXIF.getTag(this, "GPSLongitude");
+        let exifLat = EXIF.getTag(this, "GPSLatitude");
+        let exifLongRef = EXIF.getTag(this, "GPSLongitudeRef");
+        let exifLatRef = EXIF.getTag(this, "GPSLatitudeRef");
+
+        if (exifLatRef == "S") {
+            var latitude = (exifLat[0]*-1) + (( (exifLat[1]*-60) + (exifLat[2]*-1) ) / 3600);						
+        } else {
+            var latitude = exifLat[0] + (( (exifLat[1]*60) + exifLat[2] ) / 3600);
+        }
+
+        if (exifLongRef == "W") {
+            var longitude = (exifLong[0]*-1) + (( (exifLong[1]*-60) + (exifLong[2]*-1) ) / 3600);						
+        } else {
+            var longitude = exifLong[0] + (( (exifLong[1]*60) + exifLong[2] ) / 3600);
+        }
+
+        let wtmX = latitude;
+        let wtmY = longitude;
+
+
+        console.log("Latitude:", latitude);
+        console.log(wtmX);
+
+        console.log("Longitude:", longitude);
+        console.log(wtmY);
+
+    });
 }
+
 
 
 
