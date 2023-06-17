@@ -32,15 +32,15 @@
                 </div>
             </section>
             <div class="grid justify-center">
-                <div v-if="data.memberId==userId" class="bg-gray-400 w-32 h-32 grid items-center justify-center cursor-pointer" @click="savePost(data.title, data.content)">저장하기</div>
+                <div v-if="data.memberId==userId" class="bg-gray-400 w-32 h-32 grid items-center justify-center cursor-pointer" @click="savePost(data.id, data.title, data.content)">저장하기</div>
             </div>
         </section>
     </section>
 
 </template>
 <script setup>
-import { defineProps, ref, onMounted, toRefs  } from 'vue';
-import {useUserDetailsStore} from '../../stores/useUserDetailsStore.js'
+import { defineProps, ref, onMounted, toRefs } from 'vue';
+import { useUserDetailsStore } from '../../stores/useUserDetailsStore.js'
 
 let userId = useUserDetailsStore().userId;
 
@@ -48,14 +48,36 @@ let data = ref("");
 
 let modifyVisible = ref(false);
 
-function modifyPost(){
+function modifyPost() {
     modifyVisible.value = !modifyVisible.value
     console.log(modifyVisible.value)
 }
 
-function savePost(title, content){
+function savePost(id, title, content) {
     modifyVisible.value = !modifyVisible.value
-    
+
+
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+        "id": id,
+        "title": title,
+        "content": content
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    fetch("http://localhost:8080/updateArticle", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
 }
 
 const props = defineProps({
@@ -76,7 +98,7 @@ onMounted(() => {
         .then(result => {
             console.log(result)
             data.value = result;
-            console.log("데이타는"+data.value.id)
+            console.log("데이타는" + data.value.id)
         })
         .catch(error => console.log('error', error));
 })
@@ -85,8 +107,7 @@ console.log(props)
 </script>
 <style scoped>
 .input-reset {
-  /* 초기화할 속성을 기본값으로 설정 */
-  all: unset;
+    /* 초기화할 속성을 기본값으로 설정 */
+    all: unset;
 }
-    
 </style>

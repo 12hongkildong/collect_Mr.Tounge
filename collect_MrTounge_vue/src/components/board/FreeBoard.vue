@@ -5,6 +5,7 @@
             <div>공략집</div>
             
             <section>
+              <section>
                 <form action="">
                     <select name="" id="">
                         <option value="title">제목</option>
@@ -14,6 +15,7 @@
                     <input type="text">
                     <button class="bg-white border">검색</button>
                 </form>
+              </section>
                 <section class="grid grid-flow-row bg-red-400 border-solid border-2 min-h-[150px] grid-rows-[24px_24px_24px_24px_24px]" > <!-- 게시판 -->
                     <h1 class="hidden">게시판 테이블</h1>
                     <div class="grid grid-cols-[60px_500px_128px_60px_100px_60px] border-solid border-2">
@@ -51,6 +53,9 @@
                         </ul>
                       </nav>
                   </section>
+                  <div class="grid justify-center">
+                    <router-link to="create" class="bg-gray-400 w-32 h-32 grid items-center justify-center cursor-pointer" @click="createArticle()">글쓰기</router-link>
+                </div>
                 </div>
             </section>
         </section>
@@ -101,18 +106,21 @@ function previousPage() {
 
 function changePage(num){
     currentPage.value=num;
+    getPage(currentPage.value-1);
     updatePage();
 }
 
 function fiveJumpPage(){
   if(!(((totalPages.value-currentPage.value)<=Math.trunc(totalPages.value%5)-1) || (totalPages.value-currentPage.value<=0)))
     currentPage.value = Math.ceil(currentPage.value / PageChangeRange) * PageChangeRange + 1;
+    getPage(currentPage.value-1);
   updatePage();
 }
 
 function fiveMinuseJumpPage(){
   if (currentPage.value > 5){ 
   currentPage.value -= (PageChangeRange+(Math.trunc(currentPage.value-1)%PageChangeRange))
+  getPage(currentPage.value-1);
   updatePage();
   }
 }
@@ -156,6 +164,10 @@ onMounted(() => {
     .catch(error => console.log('error', error));
   console.log("마운트");
 })
+
+function createArticle(){
+  alert("글을 씁시다");
+}
 
 </script>
 <style scoped></style>

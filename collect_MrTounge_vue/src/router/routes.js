@@ -6,6 +6,7 @@ import Board from '../components/board/FreeBoard.vue'
 import MyList from '../components/MyList/MyList.vue'
 import gpt from '../components/board/gptPage.vue'
 import Detail from '../components/board/Detail.vue'
+import CreateArticle from '../components/board/CreateArticle.vue'
 
 
 
@@ -33,6 +34,10 @@ const routes = [
     component:Detail,
     name:'detail',
     props: true,
+  },
+  {
+    path:'/create',
+    component:CreateArticle
   },
   {
     path: '/list',
