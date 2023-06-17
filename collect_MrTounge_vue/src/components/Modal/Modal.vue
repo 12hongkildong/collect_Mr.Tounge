@@ -5,7 +5,9 @@
                 <h1>사진 업로드</h1>
                 <!-- <form action="" method="post" enctype="multipart/form-data"> -->
                     <input type="file" name="" id="" accept="image/*" v-on:change="changeFile($event.target.files[0])">
-                    <div class="bg-blue-400 w-96 h-48">지도</div>
+                    <div class="bg-blue-400 w-96 h-48">
+                        <div id="map2" class="w-96 h-48"></div>
+                    </div>
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">간단 설명</label>
                     <textarea id="message" cols="100" rows="4" class="resize block p-2.5 w-fit text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 focus:bg-white" placeholder="Write your thoughts here..."></textarea>
                     <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 rounded-b-lg">
@@ -19,12 +21,14 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref, onUpdated, onMounted } from 'vue';
 import { useUserDetailsStore } from '../../stores/useUserDetailsStore';
 
-
-
 let userId = useUserDetailsStore.userId;
+let imageUrl = ref("");
+
+let latitude = ref(0);
+let longitude = ref(0);
 
 const emit = defineEmits([
     "closeModal"
@@ -40,52 +44,80 @@ function changeFile(e) {
     const file = e; // 이미지 파일
 
     EXIF.getData(file, function () {
-        // const latitude = EXIF.getTag(this, "GPSLatitude"); // 위도 정보 가져오기
-        // const longitude = EXIF.getTag(this, "GPSLongitude"); // 경도 정보 가져오기
         let exifLong = EXIF.getTag(this, "GPSLongitude");
         let exifLat = EXIF.getTag(this, "GPSLatitude");
         let exifLongRef = EXIF.getTag(this, "GPSLongitudeRef");
         let exifLatRef = EXIF.getTag(this, "GPSLatitudeRef");
 
         if (exifLatRef == "S") {
-            var latitude = (exifLat[0]*-1) + (( (exifLat[1]*-60) + (exifLat[2]*-1) ) / 3600);						
+            latitude = (exifLat[0] * -1) + (((exifLat[1] * -60) + (exifLat[2] * -1)) / 3600);
         } else {
-            var latitude = exifLat[0] + (( (exifLat[1]*60) + exifLat[2] ) / 3600);
+            latitude = exifLat[0] + (((exifLat[1] * 60) + exifLat[2]) / 3600);
         }
 
         if (exifLongRef == "W") {
-            var longitude = (exifLong[0]*-1) + (( (exifLong[1]*-60) + (exifLong[2]*-1) ) / 3600);						
+            longitude = (exifLong[0] * -1) + (((exifLong[1] * -60) + (exifLong[2] * -1)) / 3600);
         } else {
-            var longitude = exifLong[0] + (( (exifLong[1]*60) + exifLong[2] ) / 3600);
+            longitude = exifLong[0] + (((exifLong[1] * 60) + exifLong[2]) / 3600);
         }
 
-        let wtmX = latitude;
-        let wtmY = longitude;
+        console.log(latitude)
+        console.log(longitude)
 
+            // const file = e.target.files[0];
+        const reader = new FileReader();
 
-        console.log("Latitude:", latitude);
-        console.log(wtmX);
+        reader.onload = () => {
+            this.imageUrl = reader.result;
+            imageUrl.value=this.imageUrl
+            addMap(imageUrl.value)
+        };
 
-        console.log("Longitude:", longitude);
-        console.log(wtmY);
+        reader.readAsDataURL(file);
+
+        // addMap(imageUrl.value)
 
     });
 }
 
+function addMap(url) {
+    const container2 = document.getElementById("map2");
+    const options2 = {
+        center: new kakao.maps.LatLng(latitude, longitude),
+        level: 2,
+    };
 
+    let map2 = new kakao.maps.Map(container2, options2)
 
+    var imageSrc = url, // 마커이미지의 주소입니다    
+    // var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_blue.png', // 마커이미지의 주소입니다    
+        // imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+        imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+        imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+    // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+        markerPosition = new kakao.maps.LatLng(latitude, longitude);
+
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        position: markerPosition,
+        image: markerImage // 마커이미지 설정 
+});
+
+    // 마커가 지도 위에 표시되도록 설정합니다
+    marker.setMap(map2);
+}
 
 function closeModal() {
     console.log(props.modalState)
     emit('closeModal');
-
 }
 
 function imgUpload() {
     console.log("사진 올림")
     emit('closeModal');
 }
-
 
 
 </script>

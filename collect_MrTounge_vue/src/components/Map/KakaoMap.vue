@@ -16,7 +16,6 @@ function initMap(){
 }
 
 onMounted(() => {
-    console.log("계속되나 확인")
     if(!window.kakao || !window.kakao.maps){
         const script = document.createElement("script");
         script.src = '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7b216600d29c3a7c098a5c21b56e324f'
