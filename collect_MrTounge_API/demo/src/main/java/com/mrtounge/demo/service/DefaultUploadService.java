@@ -39,6 +39,8 @@ public class DefaultUploadService implements UploadService{
         insertCollect.setMemberId(collect.getMemberId());
         insertCollect.setInformation(collect.getInformation());
         insertCollect.setImgName(fileName);
+        insertCollect.setLat(collect.getLat());
+        insertCollect.setLng(collect.getLng());
 
         repository.save(insertCollect);
 
