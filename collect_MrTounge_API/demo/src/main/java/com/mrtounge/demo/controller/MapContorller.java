@@ -21,9 +21,11 @@ public class MapContorller {
 
     @PostMapping("uploadImage")
     public String uploadImage(
-        @RequestPart(name = "image") MultipartFile multipartFile,
+        @RequestPart(name = "image", required=false) MultipartFile multipartFile,
         @RequestPart(name = "collect") Collect collect
-    ) throws IllegalStateException, IOException, Exception{
+    ) {
+        System.out.println("콜렉트는 "+ collect);
+        System.out.println("이미지는 "+ multipartFile);
         service.uploadMap(collect, multipartFile);
 
         return "이미지 업로드";
