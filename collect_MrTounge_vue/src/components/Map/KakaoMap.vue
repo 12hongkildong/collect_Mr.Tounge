@@ -4,7 +4,9 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref, defineProps, onUpdated } from 'vue';
+import { onMounted, reactive, ref, defineProps, onUpdated, defineEmits } from 'vue';
+
+const emit = defineEmits(["map"])
 
 const props = defineProps({
     userId: {
@@ -21,7 +23,9 @@ let collectList = reactive([]);
 let markers = reactive([]);
 let userId = props.userId;
 let latLng = props.latLng;
-let map;
+let map = ref(props.map);
+
+console.log(markers);// 삭제
 
 function getCollect() {
     var requestOptions = {
@@ -34,7 +38,7 @@ function getCollect() {
         .then(result => {
             collectList=result; // db에서 불러온 값들 collectList에 담기
             for(let i in collectList){
-                console.log(i)
+                // console.log(i)
                 addMarker(new kakao.maps.LatLng(collectList[i].lat, collectList[i].lng))
             }
         })
@@ -84,6 +88,7 @@ function initMap() {
         level: 7,
     };
     map = new kakao.maps.Map(container, options)
+    emit('map', map)
 }
 
 function addMarker(LatLng) { // db에 불러온 값들 메인 지도에 마커 달기
@@ -136,7 +141,8 @@ function setCenter(LatLng) {
 
 defineExpose({
     setCenter,
-    setMarkers
+    setMarkers,
+    addMarker
 })
 
 </script>

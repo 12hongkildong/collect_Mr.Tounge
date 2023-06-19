@@ -6,7 +6,7 @@
                 <h1>메인</h1>
                 <div class="row-start-2 z-0">
                         <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=582abe9ccb2561cbe67f7bcc34c45c1e"></script> -->
-                    <kakao :userId="userId" ref="child" :latLng="latLng" :map="map"></kakao>
+                    <kakao :userId="userId" ref="child" :latLng="latLng" :map="map" @map="map"></kakao>
 
                 </div>
                 <div class="row-start-3 grid grid-cols-3 justify-items-center items-center text-center">
@@ -53,20 +53,20 @@ function modalBtn(){
     console.log(showModal.value)
 }
 function closeModal(){
+    // map.value=map;
     showModal.value=false;
-    showMarkers()
+    // showMarkers()
 }
 function showMarkers() {
-    child.value.setMarkers(map)    
+    child.value.addMarker(center1)   
 }
 
 function uploadedCenter(test){ // 가장 최근에 자식에서 업로드 한 이미지 center값 부모로 받아오기
     center1=test;
 
     latLngStore.saveCategory(center1.Ma,center1.La)
-    
     changeCenter();
-    // showMarkers();
+    showMarkers()
 }
 
 function changeCenter(){
