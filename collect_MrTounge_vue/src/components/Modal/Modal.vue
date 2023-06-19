@@ -38,8 +38,6 @@ let file2 = ref("");
 
 let content = ref("");
 
-// let imageFileSongJavaVer = reactive("");
-
 const selectFile = ref(null);
 
 
@@ -57,46 +55,53 @@ function changeFile(e) {
     file = e; // 이미지 파일
     file2.value = e;
 
+
     EXIF.getData(file, function () {
         let exifLong = EXIF.getTag(this, "GPSLongitude");
         let exifLat = EXIF.getTag(this, "GPSLatitude");
         let exifLongRef = EXIF.getTag(this, "GPSLongitudeRef");
         let exifLatRef = EXIF.getTag(this, "GPSLatitudeRef");
 
-        if (exifLatRef == "S") {
-            latitude = (exifLat[0] * -1) + (((exifLat[1] * -60) + (exifLat[2] * -1)) / 3600);
-        } else {
-            latitude = exifLat[0] + (((exifLat[1] * 60) + exifLat[2]) / 3600);
+        if ((exifLongRef || exifLatRef) == null) {
+            alert("위치값이 없습니다. 이미지를 다시 선택해주세요.")
+            document.getElementById('imageData2').value = null;
         }
+        else {
+            if (exifLatRef == "S") {
+                latitude = (exifLat[0] * -1) + (((exifLat[1] * -60) + (exifLat[2] * -1)) / 3600);
+            } else {
+                latitude = exifLat[0] + (((exifLat[1] * 60) + exifLat[2]) / 3600);
+            }
 
 
 
-        if (exifLongRef == "W") {
-            longitude = (exifLong[0] * -1) + (((exifLong[1] * -60) + (exifLong[2] * -1)) / 3600);
-        } else {
-            longitude = exifLong[0] + (((exifLong[1] * 60) + exifLong[2]) / 3600);
-        }
+            if (exifLongRef == "W") {
+                longitude = (exifLong[0] * -1) + (((exifLong[1] * -60) + (exifLong[2] * -1)) / 3600);
+            } else {
+                longitude = exifLong[0] + (((exifLong[1] * 60) + exifLong[2]) / 3600);
+            }
 
-        console.log(latitude)
-        console.log(longitude)
+            console.log(latitude)
+            console.log(longitude)
 
-        lat.value = latitude;
-        lng.value = longitude;
+            lat.value = latitude;
+            lng.value = longitude;
 
-        // const file = e.target.files[0];
-        const reader = new FileReader();
+            // const file = e.target.files[0];
+            const reader = new FileReader();
 
-        reader.onload = () => {
-            this.imageUrl = reader.result;
-            imageUrl.value = this.imageUrl
-            addMap(imageUrl.value)
+            reader.onload = () => {
+                this.imageUrl = reader.result;
+                imageUrl.value = this.imageUrl
+                addMap()
+            };
+
+            reader.readAsDataURL(file);
         };
-
-        reader.readAsDataURL(file);
-    });
+    })
 }
 
-function addMap(url) {
+function addMap() {
     const container2 = document.getElementById("map2");
     const options2 = {
         center: new kakao.maps.LatLng(latitude, longitude),
@@ -121,6 +126,7 @@ function addMap(url) {
 
     // 마커가 지도 위에 표시되도록 설정합니다
     marker.setMap(map2);
+
 }
 
 function closeModal() {
@@ -131,42 +137,44 @@ function closeModal() {
 }
 
 function imgUpload() {
+    if (document.getElementById('imageData2').value === "")
+        alert("이미지를 포함해주세요.")
+    else {
+        const fileInput = document.getElementById("imageData2");
 
-    const fileInput = document.getElementById("imageData2");
+        var myHeaders = new Headers();
+        var formdata = new FormData();
+        formdata.append("image", fileInput.files[0])
+        formdata.append("collect", new Blob([JSON.stringify({
+            "memberId": userId,
+            "information": content.value,
+            "lat": lat.value,
+            "lng": lng.value
+        })], { type: 'application/json' }));
 
-    var myHeaders = new Headers();
-    var formdata = new FormData();
-    formdata.append("image", fileInput.files[0])
-    formdata.append("collect", new Blob([JSON.stringify({
-        "memberId": userId,
-        "information": content.value,
-        "lat": lat.value,
-        "lng": lng.value
-    })], { type: 'application/json' }));
-    // formdata.append("collect", new Blob([JSON.stringify({"memberId": "1", "lat": "3.0", "lng": "3.55", "information": "말해뭐해~"})], { type: 'application/json' }));
-    // formdata.append("collect", "{\"memberId\":\"1\",\"lat\":\"3.0\",\"lng\":\"3.55\",\"information\":\"말해뭐해~\"}");
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders.append("Content-Type", "multipart/form-data"),
+            body: formdata,
+            redirect: 'follow'
+        };
 
+        fetch("http://localhost:8080/main/uploadImage", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
 
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders.append("Content-Type", "multipart/form-data"),
-        body: formdata,
-        redirect: 'follow'
-    };
-
-    fetch("http://localhost:8080/main/uploadImage", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-
-    modalReset()
+        modalReset()
+    }
 }
 
-function modalReset(){
+function modalReset() {
     console.log("초기화");
     content.value = null;
     lat.value = null;
     lng.value = null;
+    const mapDiv = document.getElementById("map2");
+    mapDiv.innerHTML = "";
     closeModal()
 }
 

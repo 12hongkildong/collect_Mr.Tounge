@@ -21,7 +21,7 @@ public class MapContorller {
 
     @PostMapping("uploadImage")
     public String uploadImage(
-        @RequestPart(name = "image", required=false) MultipartFile multipartFile,
+        @RequestPart(name = "image") MultipartFile multipartFile,
         @RequestPart(name = "collect") Collect collect
     ) {
         System.out.println("콜렉트는 "+ collect);
