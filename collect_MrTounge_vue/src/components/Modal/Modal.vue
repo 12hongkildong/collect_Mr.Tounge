@@ -22,9 +22,8 @@
 
 <script setup>
 import { defineProps, defineEmits, ref, onUpdated, onMounted, reactive } from 'vue';
-import { useUserDetailsStore } from '../../stores/useUserDetailsStore';
 
-let userId = useUserDetailsStore().userId;
+let userId = props.userId;
 let imageUrl = ref("");
 
 let latitude = ref(0);
@@ -38,18 +37,26 @@ let file2 = ref("");
 
 let content = ref("");
 
+let center = reactive([]);//생성된 지도의 중심위치
+
 const selectFile = ref(null);
 
 
 const emit = defineEmits([
-    "closeModal"
+    "closeModal",
+    "center",
 ]);
 
 const props = defineProps({
     modalState: {
         type: Boolean
+    },
+    userId:{
+        type: Number
     }
 })
+
+console.log(props.modalState);
 
 function changeFile(e) {
     file = e; // 이미지 파일
@@ -72,8 +79,6 @@ function changeFile(e) {
             } else {
                 latitude = exifLat[0] + (((exifLat[1] * 60) + exifLat[2]) / 3600);
             }
-
-
 
             if (exifLongRef == "W") {
                 longitude = (exifLong[0] * -1) + (((exifLong[1] * -60) + (exifLong[2] * -1)) / 3600);
@@ -127,6 +132,7 @@ function addMap() {
     // 마커가 지도 위에 표시되도록 설정합니다
     marker.setMap(map2);
 
+    center= map2.getCenter(); 
 }
 
 function closeModal() {
@@ -175,41 +181,41 @@ function modalReset() {
     lng.value = null;
     const mapDiv = document.getElementById("map2");
     mapDiv.innerHTML = "";
+
+    emit('center', center);
     closeModal()
 }
 
-function imgUpload2() {
-    const fileInput = document.getElementById("imageData2");
+// function imgUpload2() {
+//     const fileInput = document.getElementById("imageData2");
 
-    console.log(fileInput.files[0]);
+//     console.log(fileInput.files[0]);
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "multipart/form-data; boundary=--------------------");
-    // myHeaders.append("Content-Type", "multipart/form-data; boundary=--MyBoundary123")
+//     var myHeaders = new Headers();
+//     myHeaders.append("Content-Type", "multipart/form-data; boundary=--------------------");
+//     // myHeaders.append("Content-Type", "multipart/form-data; boundary=--MyBoundary123")
 
-    var formdata = new FormData();
-    formdata.append("image", fileInput.files[0])
-    formdata.append("collect", new Blob([JSON.stringify({
-        "memberId": userId,
-        "information": content.value,
-        "lat": lat.value,
-        "lng": lng.value
-    })], { type: 'application/json' }));
+//     var formdata = new FormData();
+//     formdata.append("image", fileInput.files[0])
+//     formdata.append("collect", new Blob([JSON.stringify({
+//         "memberId": userId,
+//         "information": content.value,
+//         "lat": lat.value,
+//         "lng": lng.value
+//     })], { type: 'application/json' }));
 
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: formdata,
-        redirect: 'follow'
-    };
+//     var requestOptions = {
+//         method: 'POST',
+//         headers: myHeaders,
+//         body: formdata,
+//         redirect: 'follow'
+//     };
 
-    fetch("http://localhost:8080/main/uploadImage", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-
-
-}
+//     fetch("http://localhost:8080/main/uploadImage", requestOptions)
+//         .then(response => response.text())
+//         .then(result => console.log(result))
+//         .catch(error => console.log('error', error));
+// }
 
 </script>
 <style scoped>
