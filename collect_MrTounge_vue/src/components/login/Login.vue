@@ -10,7 +10,13 @@
                 <button class="rounded-full w-14 h-14 bg-green-600">구글 로그인</button>
             </div>
         </section>
+        <div class="row-start-3 col-start-2 grid justify-center content-center">
+            <!-- <div class="grid justify-center content-center"> -->
+                <router-link to="/sign" class="rounded-md bg-indigo-600 px-3 py-1.5 text-3xl font-semibold leading-10 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">회원가입</router-link>
+            <!-- </div> -->
+        </div>
     </section>
+    
 </template>
 <script>
 export default {
